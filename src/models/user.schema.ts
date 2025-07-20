@@ -3,9 +3,10 @@ import { sequelize } from "../config/database";
 
 class UserSchema extends Model {
   public id!: number;
-  public username!: string;
+  public pseudo!: string;
   public email!: string;
   public password!: string;
+  public bio!: string;
   public profilePicture?: string;
   public readonly created_at!: Date;
   public readonly updated_at!: Date;
@@ -17,7 +18,7 @@ UserSchema.init({
     defaultValue: DataTypes.UUIDV4,
     primaryKey: true,
   },
-  username: {
+  pseudo: {
     type: DataTypes.STRING(50),
     allowNull: false,
     unique: true,
@@ -32,6 +33,10 @@ UserSchema.init({
   },
   password: {
     type: DataTypes.STRING,
+    allowNull: false,
+  },
+  bio : {
+    type : DataTypes.STRING,
     allowNull: false,
   },
   profilePicture: {

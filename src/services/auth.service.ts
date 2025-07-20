@@ -15,7 +15,7 @@ class AuthService {
     this.userRepository = new UserRepository();
   }
 
-  async register(username: string, email: string, password: string, profilePicture?: string): Promise<string> {
+  async register(bio : string,pseudo: string, email: string, password: string, profilePicture?: string): Promise<string> {
     const existingUser = await this.userRepository.getByEmail(email);
     if(existingUser) {
       throw new Error("Email déjà utilisé");
@@ -23,7 +23,8 @@ class AuthService {
     const salt = await bcrypt.genSalt(SALT_ROUNDS);
     const hashedPassword = await bcrypt.hash(password, salt);
     const user = await this.userRepository.add({
-      username,
+      bio,
+      pseudo,
       email,
       password: hashedPassword,
       profilePicture: profilePicture || null

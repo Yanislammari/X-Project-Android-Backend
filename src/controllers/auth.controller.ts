@@ -19,12 +19,12 @@ class AuthController {
         const encodedFilename = encodeURIComponent(req.file.filename);
         profilePictureUrl = `${BASE_URL}/uploads/profile-pictures/${encodedFilename}`;
       }
-      const { username, email, password } = req.body;
-      if(!username || !email || !password) {
+      const { pseudo, email, password,bio } = req.body;
+      if(!pseudo || !email || !password || !bio) {
         res.status(400).json({ error: "username, email et password sont requis" });
         return;
       }
-      const token = await this.authService.register(username, email, password, profilePictureUrl);
+      const token = await this.authService.register(bio,pseudo, email, password, profilePictureUrl);
       res.status(201).json({ token });
     } catch (err) {
       next(err);

@@ -1,21 +1,21 @@
 import { Model, DataTypes } from "sequelize";
-import { sequelize } from "../../config/database";
+import { sequelize } from "../config/database";
 
-export class UserSchema extends Model {
+class UserSchema extends Model {
   public id!: number;
   public username!: string;
   public email!: string;
   public password!: string;
-  public profilePicture!: string | null;
+  public profilePicture?: string;
   public readonly created_at!: Date;
   public readonly updated_at!: Date;
 }
 
 UserSchema.init({
   id: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.UUID,
+    defaultValue: DataTypes.UUIDV4,
     primaryKey: true,
-    autoIncrement: true,
   },
   username: {
     type: DataTypes.STRING(50),

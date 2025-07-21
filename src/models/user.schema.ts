@@ -2,7 +2,7 @@ import { Model, DataTypes } from "sequelize";
 import { sequelize } from "../config/database";
 
 class UserSchema extends Model {
-  public id!: number;
+  public id!: string;
   public pseudo!: string;
   public email!: string;
   public password!: string;

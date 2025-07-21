@@ -27,6 +27,7 @@ class AuthController {
       const token = await this.authService.register(bio,pseudo, email, password, profilePictureUrl);
       res.status(201).json({ token });
     } catch (err) {
+      console.log(err);
       next(err);
     }
   }

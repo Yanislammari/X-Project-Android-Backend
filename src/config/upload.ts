@@ -14,3 +14,4 @@ const getStorage = (filepath: string): StorageEngine => {
 };
 
 export const uploadUserConfig = multer({ storage: getStorage("../../uploads/profile-pictures") }).single("profilePicture");
+export const uploadTweetConfig = multer({ storage: getStorage("../../uploads/tweet-images") }).single("tweetPicture");

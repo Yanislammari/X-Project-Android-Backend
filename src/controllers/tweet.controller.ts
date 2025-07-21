@@ -15,10 +15,25 @@ class TweetController {
 
   async getAllTweets(req: Request, res: Response, next: NextFunction) {
     try {
-      const tweets = await this.tweetService.getAllTweets();
+      const tweets = await this.tweetService.getAllTweets((req as any).user.id);
       res.status(200).json(tweets);
     } catch (err) {
       console.log(err)
+      next(err);
+    }
+  }
+
+  async getAllTweetsById(req: Request, res: Response, next: NextFunction) {
+    try {
+      const tweetId = req.params.id;
+      if (!tweetId) {
+        res.status(400).json({ message: "Tweet ID is required." });
+        return;
+      }
+      const tweet = await this.tweetService.getAllTweetsById(tweetId,(req as any).user.id);
+      res.status(200).json(tweet);
+    } catch (err) {
+      console.error("Error fetching tweet by ID:", err);
       next(err);
     }
   }
@@ -30,7 +45,7 @@ class TweetController {
         const encodedFilename = encodeURIComponent(req.file.filename);
         tweetPictureUrl = `${BASE_URL}/uploads/tweet-images/${encodedFilename}`;
       }
-      const {content,timestamp,} = req.body;
+      const {content,timestamp} = req.body;
       if (!content || !timestamp) {
         res.status(400).json({ message: "Content and timestamp are required." });
       }

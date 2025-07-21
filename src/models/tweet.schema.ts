@@ -11,6 +11,12 @@ class TweetSchema extends Model {
   public readonly created_at!: Date;
   public readonly updated_at!: Date;
   public user?: InstanceType<typeof UserSchema>;
+  public isSubscribed?: boolean;
+  public isCommented?: boolean;
+  public isLiked?: boolean;
+  public isDisliked?: boolean;
+  public likeCount?: number;
+  public dislikeCount?: number;
 }
 
 TweetSchema.init({

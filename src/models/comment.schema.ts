@@ -5,6 +5,7 @@ class CommentSchema extends Model {
   public id!: string;
   public content!: string;
   public timestamp!: number;
+  public tweetId!: string;
   public userId!: string;
   public readonly created_at!: Date;
   public readonly updated_at!: Date;
@@ -23,6 +24,14 @@ CommentSchema.init({
   timestamp:{
     type : DataTypes.INTEGER,
     allowNull: false,
+  },
+  tweetId: {
+    type: DataTypes.UUID,
+    allowNull: false,
+    references: {
+      model: 'tweets',
+      key: 'id',
+    }
   },
   userId: {
     type: DataTypes.UUID,

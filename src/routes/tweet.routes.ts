@@ -9,6 +9,7 @@ const tweetRoutes = () => {
 
   router.post("/tweets", createVerifyTokenMiddleware(), uploadTweetConfig, tweetController.createTweet.bind(tweetController));
   router.get("/tweets", createVerifyTokenMiddleware(),tweetController.getAllTweets.bind(tweetController));
+  router.get("/tweets/:id", createVerifyTokenMiddleware(), tweetController.getAllTweetsById.bind(tweetController));
 
   return router;
 }

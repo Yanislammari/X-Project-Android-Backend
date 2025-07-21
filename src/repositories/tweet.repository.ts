@@ -19,6 +19,20 @@ class TweetRepository extends BaseRepository<TweetSchema> {
     })
     return tweets;
   }
+
+  async getLatestByUserId(userId: string): Promise<TweetSchema | null> {
+    const tweet = await this.model.findOne({
+      where: { userId },          // filter by userId
+      order: [['created_at', 'DESC']],  // latest tweet first (assuming you have a `timestamp` field)
+      include: [
+        {
+          model: UserSchema,
+          as: 'User',
+        },
+      ],
+    });
+    return tweet;
+  }
 }
 
 export default TweetRepository; 

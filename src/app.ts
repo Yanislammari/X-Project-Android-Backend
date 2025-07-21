@@ -12,6 +12,7 @@ import LikeCommentSchema from './models/likeComment.schema';
 import DislikeCommentSchema from './models/dislikeComment.schema';
 import SubscribeSchema from './models/subscribe.schema';
 import tweetRoutes from './routes/tweet.routes';
+import subscribeRoutes from './routes/subscribe.routes';
 
 const app = express();
 
@@ -36,6 +37,7 @@ DislikeCommentSchema.sync();
 app.use('/uploads', uploadsRoutes());
 app.use('/auth', authRoutes());
 app.use('/tweets', tweetRoutes());
+app.use('/subscribe', subscribeRoutes());
 
 app.get('/', (_req, res) => {
   res.json({ message: 'The API is working' });

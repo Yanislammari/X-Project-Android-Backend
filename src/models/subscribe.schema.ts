@@ -1,5 +1,6 @@
 import { Model, DataTypes } from "sequelize";
 import { sequelize } from "../config/database";
+import UserSchema from "./user.schema";
 
 class SubscribeSchema extends Model {
   public id!: string;
@@ -39,3 +40,6 @@ SubscribeSchema.init({
 });
 
 export default SubscribeSchema;
+
+UserSchema.hasMany(SubscribeSchema)
+SubscribeSchema.belongsTo(UserSchema)

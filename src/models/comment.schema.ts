@@ -1,5 +1,6 @@
 import { Model, DataTypes } from "sequelize";
 import { sequelize } from "../config/database";
+import UserSchema from "./user.schema";
 
 class CommentSchema extends Model {
   public id!: string;
@@ -9,6 +10,7 @@ class CommentSchema extends Model {
   public userId!: string;
   public readonly created_at!: Date;
   public readonly updated_at!: Date;
+  public user?: InstanceType<typeof UserSchema>;
 }
 
 CommentSchema.init({
@@ -52,3 +54,7 @@ CommentSchema.init({
 );
 
 export default CommentSchema;
+
+
+UserSchema.hasMany(CommentSchema , { foreignKey: 'userId' });
+CommentSchema.belongsTo(UserSchema, { foreignKey: 'userId' });

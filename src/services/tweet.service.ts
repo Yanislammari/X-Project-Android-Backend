@@ -50,7 +50,7 @@ class TweetService {
           where : { userId, subscriptionId: tweet.userId },
         });
         (tweet as any).dataValues.isSubscribed = !!sub;
-        (tweet as any).dataValues.isCommented = !!await CommentSchema.findOne({where : {userId, tweetId: tweet.id}});
+        (tweet as any).dataValues.isCommented = !!await CommentSchema.findOne({where : {userId : userId, tweetId: tweet.id}});
         (tweet as any).dataValues.isLiked = !!await LikeTweetSchema.findOne({where : {userId, tweetId: tweet.id}});
         (tweet as any).dataValues.isDisliked = !!await DislikeTweetSchema.findOne({where: {userId, tweetId: tweet.id}});
         (tweet as any).dataValues.likeCount = await LikeTweetSchema.count({ where: { userId,tweetId: tweet.id } });

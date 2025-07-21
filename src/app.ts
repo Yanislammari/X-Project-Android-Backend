@@ -13,6 +13,8 @@ import DislikeCommentSchema from './models/dislikeComment.schema';
 import SubscribeSchema from './models/subscribe.schema';
 import tweetRoutes from './routes/tweet.routes';
 import subscribeRoutes from './routes/subscribe.routes';
+import commentRoutes from './routes/comment.routes';
+import likeAndDisRoutes from './routes/likeAndDis.routes';
 
 const app = express();
 
@@ -38,6 +40,8 @@ app.use('/uploads', uploadsRoutes());
 app.use('/auth', authRoutes());
 app.use('/tweets', tweetRoutes());
 app.use('/subscribe', subscribeRoutes());
+app.use('/comment',commentRoutes());
+app.use('/opinion',likeAndDisRoutes());
 
 app.get('/', (_req, res) => {
   res.json({ message: 'The API is working' });

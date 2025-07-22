@@ -56,5 +56,11 @@ CommentSchema.init({
 export default CommentSchema;
 
 
-UserSchema.hasMany(CommentSchema , { foreignKey: 'userId' });
-CommentSchema.belongsTo(UserSchema, { foreignKey: 'userId' });
+UserSchema.hasMany(CommentSchema , { 
+  foreignKey: 'userId',
+  as : "comments" 
+});
+CommentSchema.belongsTo(UserSchema, { 
+  foreignKey: 'userId',
+  as : "user" 
+});

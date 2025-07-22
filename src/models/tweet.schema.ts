@@ -57,5 +57,11 @@ TweetSchema.init({
 
 export default TweetSchema;
 
-UserSchema.hasMany(TweetSchema, { foreignKey: 'userId' });
-TweetSchema.belongsTo(UserSchema, { foreignKey: 'userId' });
+UserSchema.hasMany(TweetSchema, { 
+  foreignKey: 'userId',
+  as : "tweets"
+});
+TweetSchema.belongsTo(UserSchema, { 
+  foreignKey: 'userId',
+  as : "user"
+});

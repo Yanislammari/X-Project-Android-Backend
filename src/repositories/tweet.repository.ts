@@ -12,7 +12,7 @@ class TweetRepository extends BaseRepository<TweetSchema> {
       include: [
         {
           model: UserSchema,
-          as: 'User',
+          as: 'user',
         }
       ],
       order: [['created_at', 'DESC']],
@@ -27,7 +27,7 @@ class TweetRepository extends BaseRepository<TweetSchema> {
       include: [
         {
           model: UserSchema,
-          as: 'User',
+          as: 'user',
         },
       ],
     });

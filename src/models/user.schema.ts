@@ -10,6 +10,7 @@ class UserSchema extends Model {
   public profilePicture?: string;
   public readonly created_at!: Date;
   public readonly updated_at!: Date;
+  public isSubscribed!: boolean;
 }
 
 UserSchema.init({

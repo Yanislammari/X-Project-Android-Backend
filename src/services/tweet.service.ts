@@ -25,7 +25,7 @@ class TweetService {
       include: [
         {
           model: UserSchema,
-          as: 'User',
+          as: 'user',
         }
       ],
       order: [['created_at', 'DESC']],
@@ -46,15 +46,12 @@ class TweetService {
 
   async addOptionalDataToTweet(tweetsSchema : TweetSchema[],userId: string) : Promise<TweetSchema[]> {
     return Promise.all(tweetsSchema.map(async (tweet) => {
-        const sub = await SubscribeSchema.findOne({
-          where : { userId, subscriptionId: tweet.userId },
-        });
-        (tweet as any).dataValues.isSubscribed = !!sub;
         (tweet as any).dataValues.isCommented = !!await CommentSchema.findOne({where : {userId : userId, tweetId: tweet.id}});
         (tweet as any).dataValues.isLiked = !!await LikeTweetSchema.findOne({where : {userId, tweetId: tweet.id}});
         (tweet as any).dataValues.isDisliked = !!await DislikeTweetSchema.findOne({where: {userId, tweetId: tweet.id}});
         (tweet as any).dataValues.likeCount = await LikeTweetSchema.count({ where: { userId,tweetId: tweet.id } });
         (tweet as any).dataValues.dislikeCount = await DislikeTweetSchema.count({ where: { userId,tweetId: tweet.id}});
+        (tweet.user as any).dataValues.isSubscribed = !! await SubscribeSchema.findOne({where:{userId,subscriptionId : tweet.userId}})
         return tweet;
       })
     )

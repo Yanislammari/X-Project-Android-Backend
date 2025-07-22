@@ -41,5 +41,11 @@ SubscribeSchema.init({
 
 export default SubscribeSchema;
 
-UserSchema.hasMany(SubscribeSchema)
-SubscribeSchema.belongsTo(UserSchema)
+UserSchema.hasMany(SubscribeSchema,{
+  foreignKey : "userId",
+  as: "subscribes"
+})
+SubscribeSchema.belongsTo(UserSchema,{
+  foreignKey : "userId",
+  as: "user"
+});

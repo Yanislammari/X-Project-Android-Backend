@@ -16,7 +16,7 @@ class CommentService{
       include:[
         {
           model: UserSchema,
-          as: 'User',
+          as: 'user',
         }
       ]
     })

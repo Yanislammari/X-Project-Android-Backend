@@ -5,7 +5,7 @@ import UserSchema from "./user.schema";
 class CommentSchema extends Model {
   public id!: string;
   public content!: string;
-  public timestamp!: number;
+  public timestamp!: bigint;
   public tweetId!: string;
   public userId!: string;
   public readonly created_at!: Date;
@@ -24,7 +24,7 @@ CommentSchema.init({
     allowNull: false,
   },
   timestamp:{
-    type : DataTypes.INTEGER,
+    type : DataTypes.BIGINT,
     allowNull: false,
   },
   tweetId: {

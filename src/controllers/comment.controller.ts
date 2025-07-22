@@ -38,6 +38,7 @@ class CommentController{
       },(req as any).user);
       res.status(201).json(newComment);
     } catch (error) {
+      console.log(error)
       next(error);
     }
   }

@@ -1,11 +1,15 @@
 import SubscribeSchema from "../models/subscribe.schema";
 import TweetSchema from "../models/tweet.schema";
+import UserSchema from "../models/user.schema";
 import TweetRepository from "../repositories/tweet.repository";
+import TweetService from './tweet.service';
 
 class SubscribeService{
   private readonly tweetRepository: TweetRepository;
+  private readonly tweetService : TweetService;
   constructor() {
     this.tweetRepository = new TweetRepository();
+    this.tweetService = new TweetService();
   }
 
 
@@ -24,7 +28,20 @@ class SubscribeService{
       subscriptionId: subscribeToId
     })
     const tweetToAdd = await this.tweetRepository.getLatestByUserId(subscribeToId);
-    return tweetToAdd;
+    if(tweetToAdd != null){
+      const tweetFinal = await this.tweetService.addOptionalDataToSingleTweet(tweetToAdd,userId)
+      return tweetFinal
+    }
+    else{
+      const newTweet = new TweetSchema();
+      newTweet.user = await UserSchema.findOne({ where: { id: subscribeToId } }) || undefined;
+      (newTweet as any).dataValues.user = newTweet.user
+
+      if (newTweet.user && (newTweet.user as any).dataValues) {
+        (newTweet.user as any).dataValues.isSubscribed = true
+      }
+      return newTweet
+    }
   }
 
   async unsubscribe(userId : string,subscribeToId : string): Promise<void> {
@@ -44,7 +61,23 @@ class SubscribeService{
     });
     const latestTweets = await Promise.all(
       subscriptions.map(async (sub) => {
-        return await this.tweetRepository.getLatestByUserId(sub.subscriptionId);
+        const tweetToAdd = await this.tweetRepository.getLatestByUserId(sub.subscriptionId);
+        if(tweetToAdd != null){
+          const tweetFinal = await this.tweetService.addOptionalDataToSingleTweet(tweetToAdd,userId)
+          return tweetFinal
+        }
+        else{
+          const newTweet = new TweetSchema();
+          newTweet.user = await UserSchema.findOne({ where: { id: sub.subscriptionId } }) || undefined;
+          (newTweet as any).dataValues.user = newTweet.user
+
+          if (newTweet.user && (newTweet.user as any).dataValues) {
+            (newTweet.user as any).dataValues.isSubscribed = !!await SubscribeSchema.findOne({
+              where: { userId, subscriptionId: newTweet.user.id }
+            });
+          }
+          return newTweet
+        }
       })
     );
     return latestTweets;

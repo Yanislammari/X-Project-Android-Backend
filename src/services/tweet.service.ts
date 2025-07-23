@@ -56,6 +56,16 @@ class TweetService {
       })
     )
   }
+
+  async addOptionalDataToSingleTweet(tweet : TweetSchema,userId: string) : Promise<TweetSchema> {
+      (tweet as any).dataValues.isCommented = !!await CommentSchema.findOne({where : {userId : userId, tweetId: tweet.id}});
+      (tweet as any).dataValues.isLiked = !!await LikeTweetSchema.findOne({where : {userId, tweetId: tweet.id}});
+      (tweet as any).dataValues.isDisliked = !!await DislikeTweetSchema.findOne({where: {userId, tweetId: tweet.id}});
+      (tweet as any).dataValues.likeCount = await LikeTweetSchema.count({ where: { userId,tweetId: tweet.id } });
+      (tweet as any).dataValues.dislikeCount = await DislikeTweetSchema.count({ where: { userId,tweetId: tweet.id}});
+      (tweet.user as any).dataValues.isSubscribed = !! await SubscribeSchema.findOne({where:{userId,subscriptionId : tweet.userId}})
+      return tweet;
+  }
 }
 
 export default TweetService;
